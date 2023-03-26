@@ -28,7 +28,7 @@ export default {
   },
   props: {
     fetcher: Function,
-    weatherData: Array,
+    weatherData: Object,
   },
 };
 </script>

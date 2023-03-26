@@ -15,7 +15,6 @@ export default {
       title: "Hello World",
       show: true,
       apiKey: "6d8d685969d439d8178c3b7a901ebcf4",
-      search: "",
       weatherData: [],
     };
   },

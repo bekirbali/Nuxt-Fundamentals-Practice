@@ -6,18 +6,16 @@
     <p>Feels like: {{ this.data?.main?.feels_like }}°C</p>
     <p>Humidity: {{ this.data?.main?.humidity }}%</p>
     <p>Wind speed: {{ this.data?.wind?.speed }}km/h</p>
-    <img src="this.iconURL" alt="sagsdga" />
+
+    <img
+      :src="`https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${this.data?.weather[0].icon}.svg`"
+      alt="icon"
+    />
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      iconURL:
-        "https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${this.data.weather[0].icon}.svg",
-    };
-  },
   props: {
     data: {
       type: Object,
@@ -25,5 +23,3 @@ export default {
   },
 };
 </script>
-
-<!-- https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg -->
