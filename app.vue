@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h1 v-show="show">{{ title }} welcome to the {{ weatherData.name }}</h1>
     <Form :fetcher="fetchData" :weatherData="weatherData" />
-    <button type="submit" @click="showToggle">toggle show</button>
   </div>
 </template>
 
