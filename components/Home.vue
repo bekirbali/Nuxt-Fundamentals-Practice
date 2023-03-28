@@ -1,15 +1,12 @@
 <template>
+  <div v-if="loading">Loading...</div>
   <div class="home">
     <Form
       :fetcher="fetchData"
       :weatherData="weatherData"
-      :currentWeatherData="currentWeatherData"
-      :locationFetcher="fetchCurrentLocationWeather"
+      :weatherForecast="weatherForecast"
+      v-if="!loading"
     />
-    <div class="location">
-      <h3 for="">Show me the weather of my city.</h3>
-      <button v-if="show" @click="fetchCurrentLocationWeather">Show</button>
-    </div>
   </div>
 </template>
 
@@ -23,38 +20,49 @@ export default {
       show: true,
       apiKey: "6d8d685969d439d8178c3b7a901ebcf4",
       weatherData: [],
-      currentWeatherData: [],
+      weatherForecast: [],
       lat: "",
       lng: "",
+      loading: true,
     };
   },
   methods: {
     async fetchData(city) {
-      const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.apiKey}`
-      );
-      this.weatherData = data;
+      try {
+        const { data } = await axios.get(
+          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${this.apiKey}`
+        );
+        this.weatherForecast = data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loading = false;
+      }
     },
-    async fetchCurrentLocationWeather() {
-      const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lng}&units=metric&appid=${this.apiKey}`
-      );
-      this.weatherData = data;
-      this.show = false;
-    },
-    async getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          this.lat = position.coords.latitude.toString();
-          this.lng = position.coords.longitude.toString();
-        });
-      } else {
-        alert("Couldn't get your location info.");
+    async fetchCurrentLocationWeather(position) {
+      const { latitude, longitude } = position.coords;
+      try {
+        const { data } = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${this.apiKey}`
+        );
+
+        this.weatherData = data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loading = false;
       }
     },
   },
-  beforeMount() {
-    this.getLocation();
+  mounted() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        this.fetchCurrentLocationWeather
+      );
+    } else {
+      alert("Couldn't get your location info.");
+      this.loading = false;
+    }
   },
 };
 </script>
