@@ -10,11 +10,7 @@
     />
     <button type="submit">Submit</button>
   </form>
-  <DisplayWeatherData
-    :data="weatherData"
-    :locationData="currentWeatherData"
-    :locationFetcher="locationFetcher"
-  />
+  <DisplayWeatherData :data="weatherData" />
 </template>
 
 <script>
@@ -37,8 +33,6 @@ export default {
   props: {
     fetcher: Function,
     weatherData: Object,
-    currentWeatherData: Object,
-    locationFetcher: Function,
   },
 };
 </script>

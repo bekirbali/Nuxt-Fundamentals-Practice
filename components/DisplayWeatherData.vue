@@ -20,12 +20,7 @@
 export default {
   props: {
     data: Object,
-    locationData: Object,
-    locationFetcher: Function,
   },
-  // mounted() {
-  //   this.locationFetcher();
-  // },
 };
 </script>
 
