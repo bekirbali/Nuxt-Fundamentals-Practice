@@ -1,7 +1,12 @@
 <template>
   <div v-if="loading">Loading...</div>
   <div class="home">
-    <Form :fetcher="fetchData" :weatherData="weatherData" v-if="!loading" />
+    <Form
+      :fetcher="fetchData"
+      :weatherData="weatherData"
+      :weatherForecast="weatherForecast"
+      v-if="!loading"
+    />
   </div>
 </template>
 
@@ -15,6 +20,7 @@ export default {
       show: true,
       apiKey: "6d8d685969d439d8178c3b7a901ebcf4",
       weatherData: [],
+      weatherForecast: [],
       lat: "",
       lng: "",
       loading: true,
@@ -24,9 +30,9 @@ export default {
     async fetchData(city) {
       try {
         const { data } = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.apiKey}`
+          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${this.apiKey}`
         );
-        this.weatherData = data;
+        this.weatherForecast = data;
       } catch (error) {
         console.log(error);
       } finally {

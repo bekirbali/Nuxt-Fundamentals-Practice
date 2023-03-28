@@ -1,6 +1,17 @@
 <template>
-  <div v-if="!this.data?.name"></div>
-  <div v-if="this?.data?.name" class="container">
+  <div v-if="this.forecastData?.city?.name">
+    <h2>{{ forecastData?.city?.name }}</h2>
+    <ul>
+      <li v-for="forecast in forecastData.list" :key="forecast?.dt">
+        <!-- {{ new Date(forecast?.dt * 1000).toLocaleDateString() }}: -->
+        {{ forecast?.dt_txt }}
+        {{ forecast?.main?.temp }}°C,
+        {{ forecast?.weather?.map((desc) => desc.description) }}
+      </li>
+    </ul>
+    <button @click="showIt">show forecast</button>
+  </div>
+  <div v-if="!this.forecastData?.city?.name" class="container">
     <p>City: {{ this.data?.name }}</p>
     <p>Temperature: {{ this.data?.main?.temp }}°C</p>
     <p>Feels like: {{ this.data?.main?.feels_like }}°C</p>
@@ -18,8 +29,19 @@
 
 <script>
 export default {
+  data() {
+    return {
+      dates: [],
+    };
+  },
   props: {
     data: Object,
+    forecastData: Object,
+  },
+  methods: {
+    showIt() {
+      console.log(this.forecastData);
+    },
   },
 };
 </script>

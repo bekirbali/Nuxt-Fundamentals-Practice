@@ -10,7 +10,7 @@
     />
     <button type="submit">Submit</button>
   </form>
-  <DisplayWeatherData :data="weatherData" />
+  <DisplayWeatherData :data="weatherData" :forecastData="weatherForecast" />
 </template>
 
 <script>
@@ -33,6 +33,7 @@ export default {
   props: {
     fetcher: Function,
     weatherData: Object,
+    weatherForecast: Object,
   },
 };
 </script>
