@@ -1,5 +1,5 @@
 <template lang="">
-  <div>
+  <div class="main-container">
     <Home />
   </div>
 </template>
@@ -9,4 +9,10 @@ export default {
   name: "App",
 };
 </script>
-<style lang=""></style>
+<style lang="scss">
+.main-container {
+  width: 56vw;
+  display: flex;
+  justify-content: center;
+}
+</style>
