@@ -1,18 +1,7 @@
 <template>
-  <div v-if="this.forecastData?.city?.name">
-    <h2>{{ forecastData?.city?.name }}</h2>
-    <ul>
-      <li v-for="forecast in forecastData.list" :key="forecast?.dt">
-        <!-- {{ new Date(forecast?.dt * 1000).toLocaleDateString() }}: -->
-        {{ forecast?.dt_txt }}
-        {{ forecast?.main?.temp }}°C,
-        {{ forecast?.weather?.map((desc) => desc.description) }}
-      </li>
-    </ul>
-    <button @click="showIt">show forecast</button>
-  </div>
-  <div v-if="!this.forecastData?.city?.name" class="container">
+  <div v-if="this.data?.name" class="container">
     <p>City: {{ this.data?.name }}</p>
+    <h3>{{ this.data.weather[0].description }}</h3>
     <p>Temperature: {{ this.data?.main?.temp }}°C</p>
     <p>Feels like: {{ this.data?.main?.feels_like }}°C</p>
     <p>Humidity: {{ this.data?.main?.humidity }}%</p>
@@ -20,6 +9,48 @@
 
     <img
       :src="`../icons/${this.data?.weather?.map(
+        (weather) => weather.icon
+      )}.svg`"
+      alt="icon"
+    />
+    <div class="forecast">
+      <div>
+        <p v-for="day in dayOne">
+          {{ day.dt_txt }}
+        </p>
+      </div>
+      <div>
+        <p v-for="day in dayTwo">
+          {{ day.dt_txt }}
+        </p>
+      </div>
+      <div>
+        <p v-for="day in dayThree">
+          {{ day.dt_txt }}
+        </p>
+      </div>
+      <div>
+        <p v-for="day in dayFour">
+          {{ day.dt_txt }}
+        </p>
+      </div>
+      <div>
+        <p v-for="day in dayFive">
+          {{ day.dt_txt }}
+        </p>
+      </div>
+    </div>
+    <button @click="showIt">show forecast</button>
+  </div>
+  <div v-if="!this.data?.name" class="container">
+    <p>City: {{ this.locationWeatherData?.name }}</p>
+    <p>Temperature: {{ this.locationWeatherData?.main?.temp }}°C</p>
+    <p>Feels like: {{ this.locationWeatherData?.main?.feels_like }}°C</p>
+    <p>Humidity: {{ this.locationWeatherData?.main?.humidity }}%</p>
+    <p>Wind speed: {{ this.locationWeatherData?.wind?.speed }}km/h</p>
+
+    <img
+      :src="`../icons/${this.locationWeatherData?.weather?.map(
         (weather) => weather.icon
       )}.svg`"
       alt="icon"
@@ -37,10 +68,20 @@ export default {
   props: {
     data: Object,
     forecastData: Object,
+    hourlyData: Object,
+    locationWeatherData: Object,
+    splitDays: Array,
+    loading: Boolean,
+    dayOne: Array,
+    dayTwo: Array,
+    dayThree: Array,
+    dayFour: Array,
+    dayFive: Array,
   },
   methods: {
     showIt() {
-      console.log(this.forecastData);
+      const day = this.forecastData?.list.splice(0, 7);
+      return day;
     },
   },
 };
@@ -53,8 +94,15 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  img {
+    width: 100px;
+  }
   p {
     margin: 0;
+  }
+  .forecast {
+    display: flex;
+    gap: 1rem;
   }
 }
 </style>

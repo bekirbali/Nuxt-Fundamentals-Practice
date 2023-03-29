@@ -10,7 +10,17 @@
     />
     <button type="submit">Submit</button>
   </form>
-  <DisplayWeatherData :data="weatherData" :forecastData="weatherForecast" />
+  <DisplayWeatherData
+    :data="weatherData"
+    :locationWeatherData="usersLocationWeatherData"
+    :splitDays="splitDays"
+    :loading="loading"
+    :dayOne="dayOne"
+    :dayTwo="dayTwo"
+    :dayThree="dayThree"
+    :dayFour="dayFour"
+    :dayFive="dayFive"
+  />
 </template>
 
 <script>
@@ -18,12 +28,15 @@ export default {
   data() {
     return {
       search: "",
+      splitDays: [],
+      loading: true,
     };
   },
   methods: {
     submitHandler(e) {
       e.preventDefault();
       this.fetcher(this.search);
+      this.forecastFetcher(this.search);
       this.search = "";
     },
     searchText(e) {
@@ -32,8 +45,15 @@ export default {
   },
   props: {
     fetcher: Function,
+    forecastFetcher: Function,
     weatherData: Object,
-    weatherForecast: Object,
+    // weatherForecast: Object,
+    usersLocationWeatherData: Object,
+    dayOne: Array,
+    dayTwo: Array,
+    dayThree: Array,
+    dayFour: Array,
+    dayFive: Array,
   },
 };
 </script>
